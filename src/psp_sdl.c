@@ -117,10 +117,9 @@ psp_sdl_clear_screen(int color)
 void
 psp_sdl_black_screen()
 {
-  SDL_FillRect(back_surface,NULL,SDL_MapRGB(back_surface->format,0x0,0x0,0x0));
-  SDL_Flip(back_surface);
-  SDL_FillRect(back_surface,NULL,SDL_MapRGB(back_surface->format,0x0,0x0,0x0));
-  SDL_Flip(back_surface);
+  SDL_FillRect(back_surface,NULL,SDL_MapRGB(back_surface->format,0x0,0x0,0x0)); SDL_Flip(back_surface);
+  SDL_FillRect(back_surface,NULL,SDL_MapRGB(back_surface->format,0x0,0x0,0x0)); SDL_Flip(back_surface);
+  SDL_FillRect(back_surface,NULL,SDL_MapRGB(back_surface->format,0x0,0x0,0x0)); SDL_Flip(back_surface);
 }
 
 void
