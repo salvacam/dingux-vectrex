@@ -33,34 +33,7 @@ static void cleanup_output(void);
 /* Remove the output files if there was no output written */
 static void cleanup_output(void)
 {
-#ifndef NO_STDIO_REDIRECT
-  FILE *file;
-  int empty;
-#endif
 
-  /* Flush the output in case anything is queued */
-  fclose(stdout);
-  fclose(stderr);
-
-#ifndef NO_STDIO_REDIRECT
-  /* See if the files have any output in them */
-  file = fopen(STDOUT_FILE, "rb");
-  if ( file ) {
-    empty = (fgetc(file) == EOF) ? 1 : 0;
-    fclose(file);
-    if ( empty ) {
-      remove(STDOUT_FILE);
-    }
-  }
-  file = fopen(STDERR_FILE, "rb");
-  if ( file ) {
-    empty = (fgetc(file) == EOF) ? 1 : 0;
-    fclose(file);
-    if ( empty ) {
-      remove(STDERR_FILE);
-    }
-  }
-#endif
 #if defined(GP2X_MODE) || defined(WIZ_MODE) || defined(CAANOO_MODE)
   cpu_deinit();
   chdir("/usr/gp2x");
@@ -68,22 +41,14 @@ static void cleanup_output(void)
 #endif
 }
 
-int 
+int
 main(int argc, char *argv[])
 {
 #if defined(GP2X_MODE) || defined(WIZ_MODE) || defined(CAANOO_MODE)
   cpu_init();
 #endif
 
-#ifndef NO_STDIO_REDIRECT
-  /* Redirect standard output and standard error. */
-  /* TODO: Error checking. */
-  freopen(STDOUT_FILE, "w", stdout);
-  freopen(STDERR_FILE, "w", stderr);
-  setvbuf(stdout, NULL, _IOLBF, BUFSIZ);  /* Line buffered */
-  setbuf(stderr, NULL);          /* No buffering */
-#endif /* NO_STDIO_REDIRECT */
-
+  if (argc > 1) strcpy(user_filename, argv[1]);
   atexit(cleanup_output);
 
   SDL_main(argc,argv);
