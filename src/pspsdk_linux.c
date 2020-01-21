@@ -57,7 +57,7 @@ static int loc_ly = 128;
   loc_CurrTimeStamp = SDL_GetTicks() * 1000;
 
   if (SDL_PollEvent(&SDLEvent)) {
-    Event=((SDL_KeyboardEvent*)(&SDLEvent))->keysym.scancode;
+    Event=((SDL_KeyboardEvent*)(&SDLEvent))->keysym.sym;
     if (SDLEvent.type==SDL_KEYDOWN) {
       ButtonPress = 1;
     } else
