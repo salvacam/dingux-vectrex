@@ -544,9 +544,9 @@ psp_sdl_load_png(SDL_Surface* my_surface, char* filename)
     PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING |
     PNG_TRANSFORM_EXPAND | PNG_TRANSFORM_BGR , NULL);
 
-  png_uint_32 width = info_ptr->width;
-  png_uint_32 height = info_ptr->height;
-  int color_type = info_ptr->color_type;
+  png_uint_32 width = png_get_image_width( png_ptr,  info_ptr); //info_ptr->width;
+  png_uint_32 height = png_get_image_height( png_ptr,  info_ptr); //info_ptr->height;
+  int color_type = png_get_color_type(png_ptr,  info_ptr); //info_ptr->color_type;
 
   if ((width  > w) ||
       (height > h)) {
@@ -555,7 +555,8 @@ psp_sdl_load_png(SDL_Surface* my_surface, char* filename)
     return 0;
   }
 
-  png_byte **pRowTable = info_ptr->row_pointers;
+  // png_byte **pRowTable = info_ptr->row_pointers;
+  png_byte **pRowTable = png_get_rows(png_ptr, info_ptr); //info_ptr->row_pointers;
   unsigned int x, y;
   byte r, g, b;
 
