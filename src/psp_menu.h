@@ -25,13 +25,16 @@
 # define PSP_MENU_BACKGROUND_COLOR psp_sdl_rgb(0x00,0x00,0x00)
 # define PSP_MENU_BLACK_COLOR      psp_sdl_rgb(0x00,0x00,0x00)
 # define PSP_MENU_AUTHOR_COLOR     psp_sdl_rgb(0x00,0x00,0xFF)
+# define PSP_MENU_BLUE_COLOR       psp_sdl_rgb(0x00,0x00,0xFF)
 # define PSP_MENU_GREEN_COLOR      psp_sdl_rgb(0x00,0xFF,0x00)
 # define PSP_MENU_RED_COLOR        psp_sdl_rgb(0xFF,0x00,0x00)
 
 # define PSP_MENU_TEXT_COLOR       psp_sdl_rgb(0x80,0x80,0xFF)
 # define PSP_MENU_TEXT2_COLOR      psp_sdl_rgb(0xff,0xff,0xff)
-# define PSP_MENU_SEL_COLOR        psp_sdl_rgb(0x00,0xff,0xff)
-# define PSP_MENU_SEL2_COLOR       psp_sdl_rgb(0xFF,0x00,0x80)
+# define PSP_MENU_SEL3_COLOR       psp_sdl_rgb(0x00,0xff,0xff)
+# define PSP_MENU_SEL2_COLOR       psp_sdl_rgb(0x00,0xff,0x00)
+# define PSP_MENU_SEL_COLOR        psp_sdl_rgb(0xFF,0xFF,0x00)
+
 
 # define PSP_MENU_MIN_TIME         150000
 
