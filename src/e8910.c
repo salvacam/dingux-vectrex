@@ -6,7 +6,7 @@
 #include "global.h"
 
 #define SOUND_FREQ   44100
-#define SOUND_SAMPLE  1024
+#define SOUND_SAMPLE  2048
 
 /***************************************************************************
 
@@ -512,7 +512,7 @@ e8910_init_sound()
 
   // set up audio buffering
   reqSpec.freq = SOUND_FREQ;            // Audio frequency in samples per second
-  reqSpec.format = AUDIO_U8;          // Audio data format
+  reqSpec.format = AUDIO_S16SYS;          // Audio data format
   reqSpec.channels = 1;            // Number of channels: 1 mono, 2 stereo
   reqSpec.samples = SOUND_SAMPLE;            // Audio buffer size in samples
   reqSpec.callback = e8910_callback;      // Callback function for filling the audio buffer
