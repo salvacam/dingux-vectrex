@@ -11,7 +11,7 @@
  *    the lower bits with the unused upper bits all set to zero.
  */
 
-#define einline inline
+#define inline
 
 enum {
   FLAG_E    = 0x80,
@@ -113,7 +113,7 @@ extern unsigned e6809_read16 (unsigned short address);
  * value parameter must be either 0 or 1.
  */
 
-static einline void set_cc (unsigned flag, unsigned value)
+static void set_cc (unsigned flag, unsigned value)
 {
   reg_cc &= ~flag;
   reg_cc |= value * flag;
@@ -121,7 +121,7 @@ static einline void set_cc (unsigned flag, unsigned value)
 
 /* test carry */
 
-static einline unsigned test_c (unsigned i0, unsigned i1,
+static unsigned test_c (unsigned i0, unsigned i1,
                 unsigned r, unsigned sub)
 {
   unsigned flag;
@@ -136,14 +136,14 @@ static einline unsigned test_c (unsigned i0, unsigned i1,
 
 /* test negative */
 
-static einline unsigned test_n (unsigned r)
+static unsigned test_n (unsigned r)
 {
   return (r >> 7) & 1;
 }
 
 /* test for zero in lower 8 bits */
 
-static einline unsigned test_z8 (unsigned r)
+static unsigned test_z8 (unsigned r)
 {
   unsigned flag;
 
@@ -157,7 +157,7 @@ static einline unsigned test_z8 (unsigned r)
 
 /* test for zero in lower 16 bits */
 
-static einline unsigned test_z16 (unsigned r)
+static unsigned test_z16 (unsigned r)
 {
   unsigned flag;
 
@@ -175,7 +175,7 @@ static einline unsigned test_z16 (unsigned r)
  * inputs.
  */
 
-static einline unsigned test_v (unsigned i0, unsigned i1, unsigned r)
+static unsigned test_v (unsigned i0, unsigned i1, unsigned r)
 {
   unsigned flag;
 
@@ -186,12 +186,12 @@ static einline unsigned test_v (unsigned i0, unsigned i1, unsigned r)
   return flag;
 }
 
-static einline unsigned get_reg_d (void)
+static unsigned get_reg_d (void)
 {
   return (reg_a << 8) | (reg_b & 0xff);
 }
 
-static einline void set_reg_d (unsigned value)
+static void set_reg_d (unsigned value)
 {
   reg_a = value >> 8;
   reg_b = value;
@@ -201,7 +201,7 @@ static einline void set_reg_d (unsigned value)
  * while the upper bits are all zero.
  */
 
-static einline unsigned char read8 (unsigned short address)
+static unsigned char read8 (unsigned short address)
 {
   return e6809_read8(address);
 }
@@ -210,12 +210,12 @@ static einline unsigned char read8 (unsigned short address)
  * is written. the upper bits are ignored.
  */
 
-static einline void write8 (unsigned short address, unsigned char data)
+static void write8 (unsigned short address, unsigned char data)
 {
   e6809_write8(address, data);
 }
 
-static einline unsigned read16 (unsigned short address)
+static unsigned read16 (unsigned short address)
 {
 # if 1
   return e6809_read16(address);
@@ -227,19 +227,19 @@ static einline unsigned read16 (unsigned short address)
 # endif
 }
 
-static einline void write16 (unsigned short address, unsigned data)
+static void write16 (unsigned short address, unsigned data)
 {
   write8 (address, data >> 8);
   write8 (address + 1, data);
 }
 
-static einline void push8 (unsigned *sp, unsigned data)
+static void push8 (unsigned *sp, unsigned data)
 {
   (*sp)--;
   write8 (*sp, data);
 }
 
-static einline unsigned pull8 (unsigned *sp)
+static unsigned pull8 (unsigned *sp)
 {
   unsigned data;
 
@@ -249,13 +249,13 @@ static einline unsigned pull8 (unsigned *sp)
   return data;
 }
 
-static einline void push16 (unsigned *sp, unsigned data)
+static void push16 (unsigned *sp, unsigned data)
 {
   push8 (sp, data);
   push8 (sp, data >> 8);
 }
 
-static einline unsigned pull16 (unsigned *sp)
+static unsigned pull16 (unsigned *sp)
 {
   unsigned datahi, datalo;
 
@@ -267,7 +267,7 @@ static einline unsigned pull16 (unsigned *sp)
 
 /* read a byte from the address pointed to by the pc */
 
-static einline unsigned pc_read8 (void)
+static unsigned pc_read8 (void)
 {
   unsigned data;
 
@@ -279,7 +279,7 @@ static einline unsigned pc_read8 (void)
 
 /* read a word from the address pointed to by the pc */
 
-static einline unsigned pc_read16 (void)
+static unsigned pc_read16 (void)
 {
   unsigned data;
 
@@ -291,7 +291,7 @@ static einline unsigned pc_read16 (void)
 
 /* sign extend an 8-bit quantity into a 16-bit quantity */
 
-static einline unsigned sign_extend (unsigned data)
+static unsigned sign_extend (unsigned data)
 {
   return (~(data & 0x80) + 1) | (data & 0xff);
 }
@@ -301,7 +301,7 @@ static einline unsigned sign_extend (unsigned data)
  * instruction itself.
  */
 
-static einline unsigned ea_direct (void)
+static unsigned ea_direct (void)
 {
   return (reg_dp << 8) | pc_read8 ();
 }
@@ -310,14 +310,14 @@ static einline unsigned ea_direct (void)
  * the instruction.
  */
 
-static einline unsigned ea_extended (void)
+static unsigned ea_extended (void)
 {
   return pc_read16 ();
 }
 
 /* indexed addressing */
 
-static einline unsigned ea_indexed (unsigned *cycles)
+static unsigned ea_indexed (unsigned *cycles)
 {
   unsigned r, op, ea = 0;
 
@@ -544,7 +544,7 @@ static einline unsigned ea_indexed (unsigned *cycles)
  * essentially (0 - data).
  */
 
-einline unsigned inst_neg (unsigned data)
+unsigned inst_neg (unsigned data)
 {
   unsigned i0, i1, r;
 
@@ -563,7 +563,7 @@ einline unsigned inst_neg (unsigned data)
 
 /* instruction: com */
 
-einline unsigned inst_com (unsigned data)
+unsigned inst_com (unsigned data)
 {
   unsigned r;
 
@@ -581,7 +581,7 @@ einline unsigned inst_com (unsigned data)
  * cannot be faked as an add or substract.
  */
 
-einline unsigned inst_lsr (unsigned data)
+unsigned inst_lsr (unsigned data)
 {
   unsigned r;
 
@@ -598,7 +598,7 @@ einline unsigned inst_lsr (unsigned data)
  * cannot be faked as an add or substract.
  */
 
-einline unsigned inst_ror (unsigned data)
+unsigned inst_ror (unsigned data)
 {
   unsigned r, c;
 
@@ -616,7 +616,7 @@ einline unsigned inst_ror (unsigned data)
  * cannot be faked as an add or substract.
  */
 
-einline unsigned inst_asr (unsigned data)
+unsigned inst_asr (unsigned data)
 {
   unsigned r;
 
@@ -633,7 +633,7 @@ einline unsigned inst_asr (unsigned data)
  * essentially (data + data). simple addition.
  */
 
-einline unsigned inst_asl (unsigned data)
+unsigned inst_asl (unsigned data)
 {
   unsigned i0, i1, r;
 
@@ -654,7 +654,7 @@ einline unsigned inst_asl (unsigned data)
  * essentially (data + data + carry). addition with carry.
  */
 
-einline unsigned inst_rol (unsigned data)
+unsigned inst_rol (unsigned data)
 {
   unsigned i0, i1, c, r;
 
@@ -675,7 +675,7 @@ einline unsigned inst_rol (unsigned data)
  * essentially (data - 1).
  */
 
-einline unsigned inst_dec (unsigned data)
+unsigned inst_dec (unsigned data)
 {
   unsigned i0, i1, r;
 
@@ -694,7 +694,7 @@ einline unsigned inst_dec (unsigned data)
  * essentially (data + 1).
  */
 
-einline unsigned inst_inc (unsigned data)
+unsigned inst_inc (unsigned data)
 {
   unsigned i0, i1, r;
 
@@ -711,14 +711,14 @@ einline unsigned inst_inc (unsigned data)
 
 /* instruction: tst */
 
-einline void inst_tst8 (unsigned data)
+void inst_tst8 (unsigned data)
 {
   set_cc (FLAG_N, test_n (data));
   set_cc (FLAG_Z, test_z8 (data));
   set_cc (FLAG_V, 0);
 }
 
-einline void inst_tst16 (unsigned data)
+void inst_tst16 (unsigned data)
 {
   set_cc (FLAG_N, test_n (data >> 8));
   set_cc (FLAG_Z, test_z16 (data));
@@ -727,7 +727,7 @@ einline void inst_tst16 (unsigned data)
 
 /* instruction: clr */
 
-einline void inst_clr (void)
+void inst_clr (void)
 {
   set_cc (FLAG_N, 0);
   set_cc (FLAG_Z, 1);
@@ -737,7 +737,7 @@ einline void inst_clr (void)
 
 /* instruction: suba/subb */
 
-einline unsigned inst_sub8 (unsigned data0, unsigned data1)
+unsigned inst_sub8 (unsigned data0, unsigned data1)
 {
   unsigned i0, i1, r;
 
@@ -758,7 +758,7 @@ einline unsigned inst_sub8 (unsigned data0, unsigned data1)
  * only 8-bit version, 16-bit version not needed.
  */
 
-einline unsigned inst_sbc (unsigned data0, unsigned data1)
+unsigned inst_sbc (unsigned data0, unsigned data1)
 {
   unsigned i0, i1, c, r;
 
@@ -780,7 +780,7 @@ einline unsigned inst_sbc (unsigned data0, unsigned data1)
  * only 8-bit version, 16-bit version not needed.
  */
 
-einline unsigned inst_and (unsigned data0, unsigned data1)
+unsigned inst_and (unsigned data0, unsigned data1)
 {
   unsigned r;
 
@@ -795,7 +795,7 @@ einline unsigned inst_and (unsigned data0, unsigned data1)
  * only 8-bit version, 16-bit version not needed.
  */
 
-einline unsigned inst_eor (unsigned data0, unsigned data1)
+unsigned inst_eor (unsigned data0, unsigned data1)
 {
   unsigned r;
 
@@ -810,7 +810,7 @@ einline unsigned inst_eor (unsigned data0, unsigned data1)
  * only 8-bit version, 16-bit version not needed.
  */
 
-einline unsigned inst_adc (unsigned data0, unsigned data1)
+unsigned inst_adc (unsigned data0, unsigned data1)
 {
   unsigned i0, i1, c, r;
 
@@ -832,7 +832,7 @@ einline unsigned inst_adc (unsigned data0, unsigned data1)
  * only 8-bit version, 16-bit version not needed.
  */
 
-einline unsigned inst_or (unsigned data0, unsigned data1)
+unsigned inst_or (unsigned data0, unsigned data1)
 {
   unsigned r;
 
@@ -845,7 +845,7 @@ einline unsigned inst_or (unsigned data0, unsigned data1)
 
 /* instruction: adda/addb */
 
-einline unsigned inst_add8 (unsigned data0, unsigned data1)
+unsigned inst_add8 (unsigned data0, unsigned data1)
 {
   unsigned i0, i1, r;
 
@@ -864,7 +864,7 @@ einline unsigned inst_add8 (unsigned data0, unsigned data1)
 
 /* instruction: addd */
 
-einline unsigned inst_add16 (unsigned data0, unsigned data1)
+unsigned inst_add16 (unsigned data0, unsigned data1)
 {
   unsigned i0, i1, r;
 
@@ -882,7 +882,7 @@ einline unsigned inst_add16 (unsigned data0, unsigned data1)
 
 /* instruction: subd */
 
-einline unsigned inst_sub16 (unsigned data0, unsigned data1)
+unsigned inst_sub16 (unsigned data0, unsigned data1)
 {
   unsigned i0, i1, r;
 
@@ -900,7 +900,7 @@ einline unsigned inst_sub16 (unsigned data0, unsigned data1)
 
 /* instruction: 8-bit offset branch */
 
-einline void inst_bra8 (unsigned test, unsigned op, unsigned *cycles)
+void inst_bra8 (unsigned test, unsigned op, unsigned *cycles)
 {
   unsigned offset, mask;
 
@@ -916,7 +916,7 @@ einline void inst_bra8 (unsigned test, unsigned op, unsigned *cycles)
 
 /* instruction: 16-bit offset branch */
 
-einline void inst_bra16 (unsigned test, unsigned op, unsigned *cycles)
+void inst_bra16 (unsigned test, unsigned op, unsigned *cycles)
 {
   unsigned offset, mask;
 
@@ -932,7 +932,7 @@ einline void inst_bra16 (unsigned test, unsigned op, unsigned *cycles)
 
 /* instruction: pshs/pshu */
 
-einline void inst_psh (unsigned op, unsigned *sp,
+void inst_psh (unsigned op, unsigned *sp,
              unsigned data, unsigned *cycles)
 {
   if (op & 0x80) {
@@ -979,7 +979,7 @@ einline void inst_psh (unsigned op, unsigned *sp,
 
 /* instruction: puls/pulu */
 
-einline void inst_pul (unsigned op, unsigned *sp, unsigned *osp,
+void inst_pul (unsigned op, unsigned *sp, unsigned *osp,
              unsigned *cycles)
 {
   if (op & 0x01) {
@@ -1024,7 +1024,7 @@ einline void inst_pul (unsigned op, unsigned *sp, unsigned *osp,
   }
 }
 
-einline unsigned exgtfr_read (unsigned reg)
+unsigned exgtfr_read (unsigned reg)
 {
   unsigned data;
 
@@ -1068,7 +1068,7 @@ einline unsigned exgtfr_read (unsigned reg)
   return data;
 }
 
-einline void exgtfr_write (unsigned reg, unsigned data)
+void exgtfr_write (unsigned reg, unsigned data)
 {
   switch (reg) {
   case 0x0:
@@ -1109,7 +1109,7 @@ einline void exgtfr_write (unsigned reg, unsigned data)
 
 /* instruction: exg */
 
-einline void inst_exg (void)
+void inst_exg (void)
 {
   unsigned op, tmp;
 
@@ -1122,7 +1122,7 @@ einline void inst_exg (void)
 
 /* instruction: tfr */
 
-einline void inst_tfr (void)
+void inst_tfr (void)
 {
   unsigned op;
 
