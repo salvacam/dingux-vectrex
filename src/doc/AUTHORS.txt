@@ -1,0 +1,16 @@
+VECX - Windows emulator 
+
+  Valavan Manohararajah
+
+PVE - Portable Vectrex Emulator
+
+Port on PSP, Caanoo :
+
+  Ludovic Jacomme alias Zx-81 zx81.zx81(at)gmail.com
+
+  Homepage: http://zx81.zx81.free.fr
+
+
+Port on Dingux
+Coccijoe
+http://coccijoe.blogspot.com/

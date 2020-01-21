@@ -17,14 +17,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
-TARGET = gp2xve
+TARGET = dingux-vectrex/dingux-vectrex.elf
 SDL_CONFIG = sdl-config
-OBJS = gp2x_psp.o \
-       e6809.o e8910.o  osint.o vecx.o \
-       global.o psp_main.o \
-       psp_sdl.o psp_kbd.o psp_dve.o psp_fmgr.o psp_font.o \
-       psp_danzeff.o psp_menu_set.o \
-       psp_menu.o psp_menu_kbd.o psp_menu_help.o \
+OBJS = src/gp2x_psp.o \
+       src/e6809.o src/e8910.o src/osint.o src/vecx.o \
+       src/global.o src/psp_main.o \
+       src/psp_sdl.o src/psp_kbd.o src/psp_dve.o src/psp_fmgr.o src/psp_font.o \
+       src/psp_danzeff.o src/psp_menu_set.o \
+       src/psp_menu.o src/psp_menu_kbd.o src/psp_menu_help.o
  
 CC=gcc -pg
 

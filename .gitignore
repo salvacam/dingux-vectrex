@@ -1,0 +1,6 @@
+*.o
+*.elf
+*.opk
+*.ipk
+*.dge
+dingux-vectrex/roms
