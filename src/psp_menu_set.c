@@ -205,7 +205,7 @@ psp_display_screen_settings_menu(void)
       string_fill_with_space(buffer, 4);
       psp_sdl_back2_print(140, y, buffer, color);
     } else*/
-    if (menu_id == MENU_SET_RESET) {
+    if (menu_id == MENU_KEYBOARD || menu_id == MENU_SET_AUTOFIRE) {
       y += y_step;
     }
 
@@ -460,19 +460,10 @@ psp_settings_menu(void)
       psp_settings_menu_reset();
       end_menu = 1;
     } else
-    if ((new_pad == GP2X_CTRL_LEFT ) ||
-        (new_pad == GP2X_CTRL_RIGHT) ||
-        (new_pad == GP2X_CTRL_CROSS) ||
-        (new_pad == GP2X_CTRL_CIRCLE))
+    if ((new_pad == GP2X_CTRL_LEFT ) || (new_pad == GP2X_CTRL_RIGHT))
     {
-      int step = 0;
-
-      if (new_pad & GP2X_CTRL_RIGHT) {
-        step = 1;
-      } else
-      if (new_pad & GP2X_CTRL_LEFT) {
-        step = -1;
-      }
+      int step = 1;
+      if (new_pad & GP2X_CTRL_LEFT) step = -1;
 
       switch (cur_menu_id )
       {
@@ -515,6 +506,7 @@ psp_settings_menu(void)
         break;
         case MENU_SET_AUTOFIRE  : psp_settings_menu_autofire( step );
         break;
+    if ((new_pad == GP2X_CTRL_CIRCLE))
        /* case MENU_SET_CLOCK     : psp_settings_menu_clock( step );
         break;*/
         case MENU_SET_LOAD       : psp_settings_menu_load(FMGR_FORMAT_SET);
@@ -547,7 +539,7 @@ psp_settings_menu(void)
       /* Cancel */
       end_menu = -1;
     } else
-    if((new_pad & GP2X_CTRL_SELECT) == GP2X_CTRL_SELECT) {
+    if((new_pad & GP2X_CTRL_CROSS) || (new_pad & GP2X_CTRL_SELECT)) {
       /* Back to DVE */
       end_menu = 1;
     }

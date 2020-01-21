@@ -396,13 +396,6 @@ psp_sdl_display_splash()
   gp2xCtrlData c;
   psp_sdl_blit_splash();
   psp_sdl_flip();
-  sleep(1);
-
-  while (index < 150) {
-    gp2xCtrlPeekBufferPositive(&c, 1);
-    if (c.Buttons & (GP2X_CTRL_START|GP2X_CTRL_CROSS)) break;
-    index++;
-  }
 }
 
 void

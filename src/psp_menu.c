@@ -387,24 +387,8 @@ psp_main_menu_exit(void)
 
   psp_kbd_wait_no_button();
 
-  do
-  {
-    gp2xCtrlReadBufferPositive(&c, 1);
-    c.Buttons &= PSP_ALL_BUTTON_MASK;
-
-    if (c.Buttons & GP2X_CTRL_CROSS) {
-      psp_sdl_clear_screen(0);
-      psp_sdl_flip();
-      psp_sdl_clear_screen(0);
-      psp_sdl_flip();
-      psp_sdl_exit(0);
-    }
-
-  } while (c.Buttons == 0);
-
-  psp_kbd_wait_no_button();
-
-  return 0;
+		psp_sdl_exit(0);
+	return 0;
 }
 
 int
@@ -440,34 +424,6 @@ psp_main_menu(void)
     }
 
     new_pad = c.Buttons;
-
-    if ((old_pad != new_pad) || ((c.TimeStamp - last_time) > PSP_MENU_MIN_TIME)) {
-      last_time = c.TimeStamp;
-      old_pad = new_pad;
-
-    } else continue;
-
-    if ((c.Buttons & GP2X_CTRL_LTRIGGER) == GP2X_CTRL_LTRIGGER) {
-      psp_settings_menu();
-      old_pad = new_pad = 0;
-    } else
-    if ((c.Buttons & GP2X_CTRL_RTRIGGER) == GP2X_CTRL_RTRIGGER) {
-      psp_main_menu_reset();
-      end_menu = 1;
-    } else
-    if ((new_pad == GP2X_CTRL_LEFT ) ||
-        (new_pad == GP2X_CTRL_RIGHT) ||
-        (new_pad == GP2X_CTRL_CROSS) ||
-        (new_pad == GP2X_CTRL_CIRCLE))
-    {
-      int step = 0;
-
-      if (new_pad & GP2X_CTRL_RIGHT) {
-        step = 1;
-      } else
-      if (new_pad & GP2X_CTRL_LEFT) {
-        step = -1;
-      }
 
       switch (cur_menu_id )
       {
@@ -519,28 +475,12 @@ psp_main_menu(void)
         break;
       }
 
-    } else
-    if(new_pad & GP2X_CTRL_UP) {
-
       if (cur_menu_id > 0) cur_menu_id--;
       else                 cur_menu_id = MAX_MENU_ITEM-1;
 
-    } else
-    if(new_pad & GP2X_CTRL_DOWN) {
+			if (c.Buttons) break;
+		}
 
-      if (cur_menu_id < (MAX_MENU_ITEM-1)) cur_menu_id++;
-      else                                 cur_menu_id = 0;
-
-    } else
-    if(new_pad & GP2X_CTRL_SQUARE) {
-      /* Cancel */
-      end_menu = -1;
-    } else
-    if(new_pad & GP2X_CTRL_SELECT) {
-      /* Back to DVE */
-      end_menu = 1;
-    }
-  }
 
   psp_kbd_wait_no_button();
 
@@ -550,7 +490,40 @@ psp_main_menu(void)
   psp_sdl_flip();
 
   dve_audio_resume();
+		if ((c.Buttons & GP2X_CTRL_LTRIGGER) == GP2X_CTRL_LTRIGGER) {
+			psp_settings_menu();
+			old_pad = new_pad = 0;
+		} else
+		if ((c.Buttons & GP2X_CTRL_RTRIGGER) == GP2X_CTRL_RTRIGGER) {
+			psp_main_menu_reset();
+			end_menu = 1;
+		} else
+     if ((new_pad == GP2X_CTRL_LEFT ) || (new_pad == GP2X_CTRL_RIGHT))
+    {
+      int step = 1;
+      if (new_pad & GP2X_CTRL_LEFT) step = -1;
+    if ((new_pad == GP2X_CTRL_CIRCLE))
 
   return 1;
+		if(new_pad & GP2X_CTRL_UP) {
+
+			if (cur_menu_id > 0) cur_menu_id--;
+			else                 cur_menu_id = MAX_MENU_ITEM-1;
+
+		} else
+		if(new_pad & GP2X_CTRL_DOWN) {
+
+			if (cur_menu_id < (MAX_MENU_ITEM-1)) cur_menu_id++;
+			else                                 cur_menu_id = 0;
+
+		} else
+		if(new_pad & GP2X_CTRL_SQUARE) {
+			/* Cancel */
+			end_menu = -1;
+		} else
+		if((new_pad & GP2X_CTRL_CROSS) || (new_pad & GP2X_CTRL_SELECT)) {
+			/* Back to DVE */
+			end_menu = 1;
+		}
 }
 

@@ -456,7 +456,7 @@ static  int sel=0;
     if (new_pad & GP2X_CTRL_START) {
       danzeff_mode = 1;
     } else
-    if ((new_pad & GP2X_CTRL_CROSS) || (new_pad & GP2X_CTRL_CIRCLE)) {
+    if ((new_pad & GP2X_CTRL_CIRCLE)) {
       if (sortfiles[sel]->d_type == DT_DIR) {
         check_last = 0;
         if(!strcmp(sortfiles[sel]->d_name,"..")){
@@ -477,7 +477,8 @@ static  int sel=0;
     } else if(new_pad & GP2X_CTRL_TRIANGLE){
       check_last = 0;
       up=1;
-    } else if((new_pad & GP2X_CTRL_SQUARE) || (new_pad & GP2X_CTRL_SELECT)) {
+    } else
+    if((new_pad & GP2X_CTRL_CROSS) || (new_pad & GP2X_CTRL_SELECT)) {
       /* Cancel */
       file_selected = 0;
       break;

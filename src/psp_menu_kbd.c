@@ -461,19 +461,10 @@ psp_keyboard_menu(void)
       psp_keyboard_select_change(+1);
       psp_kbd_wait_no_button();
     } else
-    if ((new_pad == GP2X_CTRL_LEFT ) ||
-        (new_pad == GP2X_CTRL_RIGHT) ||
-        (new_pad == GP2X_CTRL_CROSS) ||
-        (new_pad == GP2X_CTRL_CIRCLE))
+    if ((new_pad == GP2X_CTRL_LEFT ) || (new_pad == GP2X_CTRL_RIGHT))
     {
-      int step = 0;
-
-      if (new_pad & GP2X_CTRL_RIGHT) {
-        step = 1;
-      } else
-      if (new_pad & GP2X_CTRL_LEFT) {
-        step = -1;
-      }
+      int step = 1;
+      if (new_pad & GP2X_CTRL_LEFT) step = -1;
 
       if ((cur_menu_id >= MENU_KBD_UP       ) &&
           (cur_menu_id <= MENU_KBD_JOY_RIGHT))
@@ -499,6 +490,7 @@ psp_keyboard_menu(void)
           break;
           case MENU_KBD_RESET       : psp_keyboard_menu_reset_kbd();
           break;
+    if ((new_pad == GP2X_CTRL_CIRCLE))
 
           case MENU_KBD_BACK        : end_menu = 1;
           break;
@@ -522,7 +514,7 @@ psp_keyboard_menu(void)
       /* Cancel */
       end_menu = -1;
     } else
-    if(new_pad & GP2X_CTRL_SELECT) {
+    if((new_pad & GP2X_CTRL_CROSS) || (new_pad & GP2X_CTRL_SELECT)) {
       /* Back to Main Menu */
       end_menu = 1;
     } else
