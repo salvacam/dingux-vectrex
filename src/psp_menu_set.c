@@ -40,26 +40,30 @@
 
 extern SDL_Surface *back_surface;
 
-# define MENU_SET_SOUND         0
-//# define MENU_SET_VOLUME        1
-# define MENU_SET_VIEW_FPS      1
-# define MENU_SET_SPEED_LIMIT   2
-# define MENU_SET_SKIP_FPS      3
-//# define MENU_SET_CLOCK         5
-# define MENU_SET_RENDER        4
-# define MENU_SET_OVERLAY       5
-# define MENU_SET_DELTA_X       6
-# define MENU_SET_DELTA_Y       7
-# define MENU_SET_COLOR         8
-# define MENU_SET_AUTOFIRE      9
+enum{
+MENU_SET_SOUND,
+//MENU_SET_VOLUME,
+MENU_SET_VIEW_FPS,
+MENU_SET_SPEED_LIMIT,
+MENU_SET_SKIP_FPS,
+//MENU_SET_CLOCK,
+MENU_SET_RENDER,
+MENU_SET_OVERLAY,
+MENU_SET_DELTA_X,
+MENU_SET_DELTA_Y,
+MENU_SET_COLOR,
+MENU_SET_AUTOFIRE,
 
-# define MENU_SET_LOAD         10
-# define MENU_SET_SAVE         11
-# define MENU_SET_RESET        12
+MENU_KEYBOARD,
 
-# define MENU_SET_BACK         13
+MENU_SET_LOAD,
+MENU_SET_SAVE,
+MENU_SET_RESET,
 
-# define MAX_MENU_SET_ITEM (MENU_SET_BACK + 1)
+// MENU_SET_BACK,
+
+MAX_MENU_SET_ITEM
+};
 
   static menu_item_t menu_list[] =
   {
@@ -76,13 +80,15 @@ extern SDL_Surface *back_surface;
     { "Color              :"},
     { "Auto fire period   :"},
 
+  { "Keyboard" },
+
     { "Load settings"        },
     { "Save settings"        },
     { "Reset settings"       },
-    { "Back to Menu"         }
+    // { "Back to Menu"         }
   };
 
-  static int cur_menu_id = MENU_SET_LOAD;
+  static int cur_menu_id = 0;
 
   static int dve_snd_enable        = 0;
   static int dve_speed_limiter     = 50;

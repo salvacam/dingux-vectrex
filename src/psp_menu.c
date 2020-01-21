@@ -43,52 +43,48 @@
 
 extern SDL_Surface *back_surface;
 
-# define MENU_SCREENSHOT   0
-//# define MENU_VOLUME       1
+enum menu_items{
+	// MENU_VOLUME,
+	MENU_LOAD_SLOT,
+	MENU_SAVE_SLOT,
+	MENU_DEL_SLOT,
 
-# define MENU_LOAD_SLOT    MENU_SCREENSHOT+1
-# define MENU_SAVE_SLOT    MENU_LOAD_SLOT+1
-# define MENU_DEL_SLOT     MENU_SAVE_SLOT+1
+	MENU_SCREENSHOT,
 
-# define MENU_HELP         MENU_DEL_SLOT+1
+	// MENU_HELP,
+	// MENU_LOAD_ROM,
+	// MENU_CHEATS,
+	// MENU_KEYBOARD,
+	MENU_SETTINGS,
+	MENU_RESET,
+	// MENU_BACK,
+	MENU_EXIT,
+	MAX_MENU_ITEM
+};
 
-# define MENU_LOAD_ROM     MENU_HELP+1
+static menu_item_t menu_list[] = {
+	//{ "Volume          :" },
 
-// # define MENU_CHEATS       MENU_LOAD_ROM+1
-# define MENU_KEYBOARD     MENU_LOAD_ROM+1
-# define MENU_SETTINGS     MENU_KEYBOARD+1
+	{ "Load state" },
+	{ "Save state" },
+	{ "Delete state" },
 
-# define MENU_RESET        MENU_SETTINGS+1
-# define MENU_BACK         MENU_RESET+1
+	{ "Save Screenshot" },
+	// { "Help" },
 
-# define MENU_EXIT        MENU_BACK+1
+	// { "Load Rom" },
 
-# define MAX_MENU_ITEM (MENU_EXIT + 1)
+	// { "Cheats" },
+	// { "Keyboard" },
+	{ "Settings" },
 
-  static menu_item_t menu_list[] =
-  {
-    { "Save Screenshot :" },
-    //{ "Volume          :" },
+	{ "Reset" },
+	// { "Back" },
+	{ "Exit" }
+};
 
-    { "Load Slot" },
-    { "Save Slot" },
-    { "Delete Slot" },
-
-    { "Help" },
-
-    { "Load Rom" },
-
-    // { "Cheats" },
-    { "Keyboard" },
-    { "Settings" },
-
-    { "Reset" },
-    { "Back" },
-    { "Exit" }
-  };
-
-  static int cur_menu_id = MENU_LOAD_ROM;
-  static int cur_slot    = 0;
+static int cur_menu_id = 0;
+static int cur_slot    = 0;
 
 void
 psp_menu_display_save_name()
