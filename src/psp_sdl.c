@@ -373,20 +373,12 @@ psp_sdl_blit_thumb(int dst_x, int dst_y, SDL_Surface* thumb_surface)
 void
 psp_sdl_blit_splash()
 {
-  if (! splash_surface) {
-    splash_surface = IMG_Load("./splash.png");
-  }
-	SDL_BlitSurface(splash_surface, NULL, back_surface, NULL);
 }
 
 void
 psp_sdl_blit_help()
 {
-  if (! help_surface) {
-    help_surface = IMG_Load("./help.png");
-  }
-  back2_surface = help_surface;
-	SDL_BlitSurface(back2_surface, NULL, back_surface, NULL);
+  psp_sdl_blit_background();
 }
 
 void

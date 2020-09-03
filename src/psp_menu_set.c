@@ -112,15 +112,12 @@ psp_display_screen_settings_menu(void)
   char buffer[64];
   int menu_id = 0;
   int color   = 0;
-  int x       = 0;
-  int y       = 0;
-  int y_step  = 0;
+  int x       = 10;
+  int y       = 20;
+  int y_step  = 10;
+  int x_step  = 30; /* dc 20130702 */
 
   psp_sdl_blit_help();
-
-  x      = 5;
-  y      = 15;
-  y_step = 10;
 
   for (menu_id = 0; menu_id < MAX_MENU_SET_ITEM; menu_id++) {
     color = PSP_MENU_TEXT_COLOR;
@@ -164,7 +161,7 @@ psp_display_screen_settings_menu(void)
           strcpy(buffer,"yellow");
           break;
       }
-      string_fill_with_space(buffer, 5);
+      string_fill_with_space(buffer, 7);
       psp_sdl_back2_print(135, y, buffer, color);
     } else
     if (menu_id == MENU_SET_AUTOFIRE) {
@@ -512,7 +509,16 @@ psp_settings_menu(void)
         break;
         case MENU_SET_AUTOFIRE  : psp_settings_menu_autofire( step );
         break;
+      }
+    } else
     if ((new_pad == GP2X_CTRL_CIRCLE))
+    {
+      switch (cur_menu_id )
+      {
+        case MENU_KEYBOARD   : psp_keyboard_menu();
+                   old_pad = new_pad = 0;
+        break;
+
        /* case MENU_SET_CLOCK     : psp_settings_menu_clock( step );
         break;*/
         case MENU_SET_LOAD       : psp_settings_menu_load(FMGR_FORMAT_SET);
@@ -522,9 +528,6 @@ psp_settings_menu(void)
                                    old_pad = new_pad = 0;
         break;
         case MENU_SET_RESET      : psp_settings_menu_reset();
-        break;
-
-        case MENU_SET_BACK       : end_menu = 1;
         break;
       }
 

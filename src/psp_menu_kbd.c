@@ -130,28 +130,23 @@ psp_kbd_menu_id_to_key_id(int menu_id)
 static void
 psp_display_screen_kbd_menu(void)
 {
-  char buffer[32];
   char *scan;
-  int menu_id = 0;
   int kbd_id  = 0;
   int dve_key = 0;
+  char buffer[64];
+  int menu_id = 0;
   int color   = 0;
-  int x       = 0;
-  int y       = 0;
-  int y_step  = 0;
+  int x       = 10;
+  int y       = 20;
+  int y_step  = 10;
+  int x_step  = 30; /* dc 20130702 */
 
   psp_sdl_blit_help();
 
-  x      = 5;
-  y      = 15;
-  y_step = 10;
-
   for (menu_id = 0; menu_id < MAX_MENU_KBD_ITEM; menu_id++)
   {
+    color = PSP_MENU_TEXT_COLOR;
     if (cur_menu_id == menu_id) color = PSP_MENU_SEL_COLOR;
-    else
-    if (menu_id == MENU_KBD_KBD_SELECT) color = PSP_MENU_NOTE_COLOR;
-    else                                color = PSP_MENU_TEXT_COLOR;
 
     psp_sdl_back2_print(x, y, menu_list[menu_id].title, color);
 
@@ -474,29 +469,31 @@ psp_keyboard_menu(void)
         kbd_id = psp_kbd_menu_id_to_key_id(cur_menu_id);
         psp_keyboard_menu_mapping(kbd_id, step);
       }
-      else
+      switch (cur_menu_id )
       {
-        switch (cur_menu_id )
-        {
           case MENU_KBD_SKIN        : psp_keyboard_menu_skin(step);
           break;
           case MENU_KBD_KBD_SELECT  : psp_keyboard_select_change(step);
           break;
-          case MENU_KBD_LOAD        : psp_keyboard_menu_load();
-                                      old_pad = new_pad = 0;
-                                      menu_kbd_selected = -1;
-          break;
-          case MENU_KBD_SAVE        : psp_keyboard_menu_save();
-          break;
-          case MENU_KBD_HOTKEYS     : psp_keyboard_menu_hotkeys();
-          break;
-          case MENU_KBD_RESET       : psp_keyboard_menu_reset_kbd();
-          break;
+      }
+    } else
     if ((new_pad == GP2X_CTRL_CIRCLE))
+    {
+      switch (cur_menu_id )
+      {
+        case MENU_KBD_LOAD        : psp_keyboard_menu_load();
+                                    old_pad = new_pad = 0;
+                                    menu_kbd_selected = -1;
+        break;
+        case MENU_KBD_SAVE        : psp_keyboard_menu_save();
+        break;
+        case MENU_KBD_HOTKEYS     : psp_keyboard_menu_hotkeys();
+        break;
+        case MENU_KBD_RESET       : psp_keyboard_menu_reset_kbd();
+        break;
 
-          case MENU_KBD_BACK        : end_menu = 1;
-          break;
-        }
+        // case MENU_KBD_BACK        : end_menu = 1;
+        // break;
       }
 
     } else
