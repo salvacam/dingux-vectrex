@@ -544,22 +544,21 @@ dve_update_blit_overlay()
   }
 }
 
-SDL_Surface*
-dve_load_image(const char* filename)
-{
-  FILE* f = fopen(filename, "r");
-  if (! f) return NULL;
-  fclose(f);
-  return IMG_Load(filename);
-}
+#define dve_load_image(filename) IMG_Load(filename)
 
 int
 dve_load_overlay()
 {
   DVE.overlay_loaded = 0;
 
+  char dir_name[512];
+
+  sprintf(dir_name, "%s", user_filename);
+  dirname(dir_name);
+
   char  FileName[MAX_PATH+1];
-  snprintf(FileName, MAX_PATH, "%s/over/%s_rot90.png", DVE.dve_home_dir, DVE.dve_save_name);
+  snprintf(FileName, MAX_PATH, "%s/%s_rot90.png", dir_name, DVE.dve_save_name);
+
   SDL_Surface* my_surface_rot90 = dve_load_image( FileName );
   if ( (! my_surface_rot90)||
        (my_surface_rot90->w != PSP_SDL_SCREEN_WIDTH) ||
@@ -567,7 +566,8 @@ dve_load_overlay()
     return -1;
   }
 
-  snprintf(FileName, MAX_PATH, "%s/over/%s_norm.png", DVE.dve_home_dir, DVE.dve_save_name);
+  snprintf(FileName, MAX_PATH, "%s/%s_norm.png", dir_name, DVE.dve_save_name);
+
   SDL_Surface* my_surface_norm = dve_load_image( FileName );
   if ((! my_surface_norm)  ||
       (my_surface_norm->w != PSP_SDL_SCREEN_WIDTH) ||
@@ -786,55 +786,41 @@ dve_initialize()
   getcwd(DVE.dve_home_dir, sizeof(DVE.dve_home_dir)-1); // get the location of the executable
 
 #if defined(GCW0_MODE)
-   static char *tmp_directory, *home_name;
+   static char *tmp_directory; // *home_name;
 
-   home_name = malloc(sizeof(char)*6 + 1);
-   strcpy(home_name,".vectrex");
-
-   sprintf(DVE.dve_home_dir, "%s/%s", getenv("HOME"), home_name);
+   sprintf(DVE.dve_home_dir, "%s/.dingux-vectrex", getenv("HOME"));
    mkdir(DVE.dve_home_dir, 0777);
 
    tmp_directory = malloc(MAX_PATH + 1);
-   sprintf(tmp_directory, "%s/%s/save/", getenv("HOME"), home_name);
+   sprintf(tmp_directory, "%s/save/", DVE.dve_home_dir);
    mkdir(tmp_directory, 0777);
    free (tmp_directory);
 
    tmp_directory = malloc(MAX_PATH + 1);
-   sprintf(tmp_directory, "%s/%s/set/", getenv("HOME"), home_name);
+   sprintf(tmp_directory, "%s/set/", DVE.dve_home_dir);
    mkdir(tmp_directory, 0777);
    free (tmp_directory);
 
    tmp_directory = malloc(MAX_PATH + 1);
-   sprintf(tmp_directory, "%s/%s/scr/", getenv("HOME"), home_name);
+   sprintf(tmp_directory, "%s/scr/", DVE.dve_home_dir);
    mkdir(tmp_directory, 0777);
    free (tmp_directory);
 
    tmp_directory = malloc(MAX_PATH + 1);
-   sprintf(tmp_directory, "%s/%s/roms/", getenv("HOME"), home_name);
+   sprintf(tmp_directory, "%s/roms/", DVE.dve_home_dir);
    strcpy(DVE.rom_directory, tmp_directory);
    mkdir(tmp_directory, 0777);
    free (tmp_directory);
 
    tmp_directory = malloc(MAX_PATH + 1);
-   sprintf(tmp_directory, "%s/%s/over/", getenv("HOME"), home_name);
+   sprintf(tmp_directory, "%s/kbd/", DVE.dve_home_dir);
    mkdir(tmp_directory, 0777);
    free (tmp_directory);
 
    tmp_directory = malloc(MAX_PATH + 1);
-   sprintf(tmp_directory, "%s/%s/kbd/", getenv("HOME"), home_name);
+   sprintf(tmp_directory, "%s/cht/", DVE.dve_home_dir);
    mkdir(tmp_directory, 0777);
    free (tmp_directory);
-
-   tmp_directory = malloc(MAX_PATH + 1);
-   sprintf(tmp_directory, "%s/%s/cht/", getenv("HOME"), home_name);
-   mkdir(tmp_directory, 0777);
-   free (tmp_directory);
-
-   tmp_directory = malloc(MAX_PATH + 1);
-   sprintf(tmp_directory, "%s/%s/over/", getenv("HOME"), home_name);
-   mkdir(tmp_directory, 0777);
-   free (tmp_directory);
-
 #endif;
 
   psp_sdl_init();
