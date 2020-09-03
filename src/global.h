@@ -9,6 +9,12 @@ typedef unsigned int   u32;
 #include "gp2x_cpu.h"
 #include <time.h>
 
+#define PSP_FMGR_MAX_PATH    512
+#define PSP_FMGR_MAX_NAME    256
+#define PSP_FMGR_MAX_ENTRY  2048
+
+char user_filename[PSP_FMGR_MAX_NAME];
+
 #define COLOR_BLUE    1
 #define COLOR_RED     2
 #define COLOR_GREEN   3

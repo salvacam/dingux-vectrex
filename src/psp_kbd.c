@@ -35,6 +35,7 @@
 #include "psp_menu.h"
 #include "psp_sdl.h"
 #include "psp_danzeff.h"
+#include "psp_fmgr.h"
 
 # define KBD_MIN_ANALOG_TIME      150000
 # define KBD_MIN_START_TIME      1500000
@@ -745,7 +746,10 @@ psp_update_keys(void)
     gp2xCtrlPeekBufferPositive(&loc_button_data, 1);
     loc_button_data.Buttons &= PSP_ALL_BUTTON_MASK;
 
-    psp_main_menu();
+    if (strlen(user_filename)) {
+      psp_fmgr_menu_load(psp_fmgr_getExtId(user_filename), user_filename);
+    }
+
     psp_init_keyboard();
 
     return 0;

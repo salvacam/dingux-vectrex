@@ -19,10 +19,6 @@
 # ifndef _PSP_FMGR_H_
 # define _PSP_FMGR_H_
 
-# define PSP_FMGR_MAX_PATH    512
-# define PSP_FMGR_MAX_NAME    256
-# define PSP_FMGR_MAX_ENTRY  2048
-
 # define FMGR_FORMAT_ROM   1
 # define FMGR_FORMAT_KBD   2
 # define FMGR_FORMAT_ZIP   3
