@@ -1,0 +1,10 @@
+Package: dingux-vectrex
+Version: 
+Description: RetroFW port of Dingux-Vectrex
+Section: emus
+Priority: optional
+Maintainer: pingflood
+Architecture: mipsel
+Homepage: https://github.com/pingflood/dingux-vectrex
+Depends:
+Source: https://github.com/pingflood/dingux-vectrex

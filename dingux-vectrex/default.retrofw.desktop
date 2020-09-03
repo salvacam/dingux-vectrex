@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Dingux Vectrex
+Comment=Vectrex Emulator
+Exec=dingux-vectrex.dge
+Icon=dingux-vectrex
+Categories=emulators;
+X-OD-Manual=dingux-vectrex.man.txt
+X-OD-Selector=/home/retrofw/roms/vectrex
+X-OD-Filter=.zip,.rom,.vec,.gam,.bin
+Terminal=false
+Type=Application
+StartupNotify=true

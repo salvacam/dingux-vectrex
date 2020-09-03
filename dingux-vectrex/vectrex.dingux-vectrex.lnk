@@ -1,0 +1,6 @@
+title=Vectrex
+description=Dingux Vectrex Emulator
+exec=/home/retrofw/emus/dingux-vectrex/dingux-vectrex.elf
+selectordir=/home/retrofw/roms/msx
+selectorfilter=.zip,.rom,.vec,.gam,.bin
+clock=600
