@@ -691,7 +691,7 @@ dve_default_settings()
   DVE.overlay_loaded = 0;
   DVE.dve_overlay_mode = 1;
 
-  dve_change_render_mode( DVE_RENDER_ROT90 );
+  dve_change_render_mode( DVE_RENDER_NORMAL );
   dve_change_color( COLOR_GRAY );
   gp2xPowerSetClockFrequency(DVE.psp_cpu_clock);
 }
