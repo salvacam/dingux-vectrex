@@ -1,0 +1,72 @@
+#
+# dingux-vectrex for the RetroFW
+#
+# by pingflood; 2019
+#
+
+CHAINPREFIX=/opt/miyoo
+CROSS_COMPILE=$(CHAINPREFIX)/usr/bin/arm-linux-
+
+CC = $(CROSS_COMPILE)gcc
+CXX = $(CROSS_COMPILE)g++
+STRIP = $(CROSS_COMPILE)strip
+
+SYSROOT		= $(shell $(CC) --print-sysroot)
+SDL_CFLAGS	= $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
+SDL_LIBS	= $(shell $(SYSROOT)/usr/bin/sdl-config --libs)
+
+TARGET = dingux-vectrex/dingux-vectrex.dge
+
+ifdef V
+	CMD =
+	SUM = @\#
+else
+	CMD = @
+	SUM = @echo
+endif
+
+INCLUDES	= -I./src
+CFLAGS		= $(SDL_CFLAGS) $(INCLUDES) -DGCW0_MODE -DMIYOO_MODE -g -O2 -Wall -fstrength-reduce -s -DSOUND_SUPPORT -DNO_STDIO_REDIRECT
+# CFLAGS		= $(SDL_CFLAGS) $(INCLUDES) -DGCW0_MODE -ggdb -O2 -Wall -fstrength-reduce -DSOUND_SUPPORT -DNO_STDIO_REDIRECT
+CXXFLAGS	= $(CFLAGS) # -fno-exceptions -fno-rtti
+LDFLAGS		= $(CXXFLAGS) $(SDL_LIBS) -lSDL_image -lpng -lz -lpthread -lm #-lgcc
+
+OBJS = \
+	src/gp2x_psp.o \
+	src/e6809.o \
+	src/e8910.o  \
+	src/osint.o \
+	src/vecx.o \
+	src/global.o \
+	src/psp_main.o \
+	src/psp_sdl.o \
+	src/psp_kbd.o \
+	src/psp_dve.o \
+	src/psp_fmgr.o \
+	src/psp_font.o \
+	src/psp_danzeff.o \
+	src/psp_editor.o \
+	src/psp_menu_set.o \
+	src/psp_menu_cheat.o \
+	src/psp_menu_list.o \
+	src/psp_menu.o \
+	src/psp_menu_kbd.o \
+	src/psp_menu_help.o
+
+all : $(TARGET)
+
+$(TARGET) : $(OBJS)
+	$(SUM) "LD $@"
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+
+%.o: %.c
+	$(SUM) "CC $@"
+	$(CMD)$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: %.cpp
+	$(SUM) "CXX $@"
+	$(CMD)$(CXX) $(CFLAGS) -c $< -o $@
+
+clean :
+	$(SUM) "CLEAN"
+	$(CMD)rm -f $(OBJS) $(TARGET)

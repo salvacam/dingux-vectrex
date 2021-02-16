@@ -54,6 +54,32 @@ typedef struct gp2xCtrlData SceCtrlData;
 # define PSP_CTRL_VOLDOWN    GP2X_CTRL_VOLDOWN
 # define PSP_CTRL_MASK       GP2X_CTRL_MASK
 
+#ifdef MIYOO_MODE
+
+#define GP2X_UP             SDLK_UP //80 //SDLK_KP8
+#define GP2X_DOWN           SDLK_DOWN // 88 //SDLK_KP2
+#define GP2X_LEFT           SDLK_LEFT // 83 //SDLK_KP4
+#define GP2X_RIGHT          SDLK_RIGHT //85 //SDLK_KP6
+
+#define GP2X_A              SDLK_SPACE //38 //SDLK_a
+#define GP2X_B              SDLK_LALT //40 //SDLK_d
+#define GP2X_X              SDLK_LCTRL //53 //SDLK_x
+#define GP2X_Y              SDLK_LSHIFT //25 //SDLK_w
+#define GP2X_L              SDLK_TAB //46 //SDLK_l
+#define GP2X_R              SDLK_BACKSPACE //27 //SDLK_r
+#define GP2X_START          SDLK_ESCAPE //36 //SDLK_RETURN
+#define GP2X_SELECT         SDLK_RCTRL //39  //SDLK_s
+
+#define GP2X_UPLEFT          (-1)
+#define GP2X_UPRIGHT         (-2)
+#define GP2X_DOWNLEFT        (-3)
+#define GP2X_DOWNRIGHT       (-4)
+#define GP2X_VOLUP           (-6)
+#define GP2X_VOLDOWN         (-7)
+#define GP2X_FIRE            SDLK_RETURN
+
+#else //MIYOO_MODE
+
 #if defined(WIZ_MODE) || defined(GP2X_MODE)
 
 //gp2x buttons codes
@@ -167,6 +193,7 @@ typedef struct gp2xCtrlData SceCtrlData;
 #define GP2X_VOLDOWN       82    //SDLK_KP_MINUS
 
 #endif
+#endif //MIYOO_MODE
 
 #define GP2X_NOEVENT -1
 
